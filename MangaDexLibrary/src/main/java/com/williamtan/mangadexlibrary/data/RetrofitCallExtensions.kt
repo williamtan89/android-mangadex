@@ -4,21 +4,19 @@ import com.williamtan.mangadexlibrary.data.enum.ApiResponse
 import com.williamtan.mangadexlibrary.data.enum.ApiResponse.Error
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.Call
+import retrofit2.Response
 
-fun <T> Call<T>.toFlow(): Flow<ApiResponse<out T>> {
+fun <T> Response<T>.toFlow(): Flow<ApiResponse<out T>> {
     return flow {
         try {
             emit(ApiResponse.Loading<T>())
 
-            val response = execute()
-
-            if (response.isSuccessful) {
-                response.body()?.let {
+            if (isSuccessful) {
+                body()?.let {
                     emit(ApiResponse.Success(it))
                 }
             } else {
-                emit(Error<T>(response.errorBody()?.toString() ?: "unknown error"))
+                emit(Error<T>(errorBody()?.toString() ?: "unknown error"))
             }
         } catch (e: Exception) {
             e.printStackTrace()
