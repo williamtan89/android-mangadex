@@ -2,25 +2,29 @@ package com.williamtan.mangadexlibrary.data.repository
 
 import com.williamtan.mangadexlibrary.data.api.MangaApi
 import com.williamtan.mangadexlibrary.data.enum.ApiResponse
+import com.williamtan.mangadexlibrary.data.mapper.CallMapper
 import com.williamtan.mangadexlibrary.data.model.GetMangaResponse
-import com.williamtan.mangadexlibrary.data.model.MangaResponse
+import com.williamtan.mangadexlibrary.domain.model.Manga
 import com.williamtan.mangadexlibrary.domain.repository.MangaRepository
-import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import retrofit2.Response
+import retrofit2.Call
 
 class MangaRepositoryTest {
     @MockK
     private lateinit var api: MangaApi
+
+    @MockK
+    private lateinit var mapper: CallMapper<GetMangaResponse, List<Manga>>
 
     private lateinit var repository: MangaRepository
 
@@ -28,32 +32,26 @@ class MangaRepositoryTest {
     fun setup() {
         MockKAnnotations.init(this)
 
-        repository = MangaRepositoryImpl(api)
+        repository = MangaRepositoryImpl(api, mapper)
     }
 
     @After
     fun cleanUp() = clearAllMocks()
 
     @Test
-    fun `getMangaList should return ApiResponseSuccess if api response is successful`() = runTest {
-        val response = mockk<Response<GetMangaResponse>>()
-        val body = mockk<GetMangaResponse>()
-        val bodyResponse: List<MangaResponse> = emptyList()
+    fun `getMangaList result should return as flow`() = runTest {
+        val expected = mockk<ApiResponse.Success<List<Manga>>>()
+        val call = mockk<Call<GetMangaResponse>>()
+        val flow: Flow<ApiResponse<List<Manga>>> = flow { emit(expected) }
 
-        every { body.data } returns bodyResponse
-        every { response.body() } returns body
-        every { response.isSuccessful } returns true
-        every { api.getMangaList() } returns response
+        every { mapper.toFlow(call) } returns flow
+        every { api.getMangaList() } returns call
 
         val result = repository.getMangaList().toList()
 
-        val isLoadingTrue = result[0]
-        assertTrue(isLoadingTrue is ApiResponse.Loading && isLoadingTrue.isLoading)
+        assertTrue(result.size == 1)
+        assertEquals(expected, result[0])
 
-        val expected = result[1]
-        assertTrue(expected is ApiResponse.Success && expected.data?.isEmpty() == true)
-
-        val isLoadingFalse = result[2]
-        assertTrue(isLoadingFalse is ApiResponse.Loading && !isLoadingFalse.isLoading)
+        return@runTest
     }
 }
