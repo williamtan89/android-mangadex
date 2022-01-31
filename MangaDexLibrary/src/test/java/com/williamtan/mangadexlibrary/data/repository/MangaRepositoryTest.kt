@@ -1,7 +1,7 @@
 package com.williamtan.mangadexlibrary.data.repository
 
 import com.williamtan.mangadexlibrary.data.api.MangaApi
-import com.williamtan.mangadexlibrary.data.enum.ApiResponse
+import com.williamtan.mangadexlibrary.data.enums.ApiResponse
 import com.williamtan.mangadexlibrary.data.mapper.CallMapper
 import com.williamtan.mangadexlibrary.data.model.GetMangaResponse
 import com.williamtan.mangadexlibrary.domain.model.Manga

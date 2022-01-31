@@ -1,7 +1,7 @@
 package com.williamtan.mangadexlibrary.data.model
 
 import com.google.gson.annotations.SerializedName
-import com.williamtan.mangadexlibrary.data.enum.MangaDexApiResult
+import com.williamtan.mangadexlibrary.data.enums.MangaDexApiResult
 
 data class GetMangaResponse(
     @SerializedName("result") val result: MangaDexApiResult,
@@ -10,9 +10,11 @@ data class GetMangaResponse(
 
 data class MangaResponse(
     @SerializedName("id") val id: String,
-
-    // attributes
-    @SerializedName("title") val title: Map<String, String>,
-    @SerializedName("altTitle") val altTitle: List<Map<String, String>>,
-    @SerializedName("description") val description: Map<String, String>
+    @SerializedName("attributes") val attributes: MangaAttributesResponse
 ) : GenericResponse()
+
+data class MangaAttributesResponse(
+    @SerializedName("title") val title: Map<String, String>,
+    @SerializedName("altTitle") val altTitle: List<Map<String, String>>?,
+    @SerializedName("description") val description: Map<String, String>
+)

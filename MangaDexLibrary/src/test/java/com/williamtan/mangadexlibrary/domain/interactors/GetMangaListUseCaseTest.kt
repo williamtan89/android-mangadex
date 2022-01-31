@@ -1,6 +1,6 @@
 package com.williamtan.mangadexlibrary.domain.interactors
 
-import com.williamtan.mangadexlibrary.data.enum.ApiResponse
+import com.williamtan.mangadexlibrary.data.enums.ApiResponse
 import com.williamtan.mangadexlibrary.domain.model.Manga
 import com.williamtan.mangadexlibrary.domain.repository.MangaRepository
 import io.mockk.*

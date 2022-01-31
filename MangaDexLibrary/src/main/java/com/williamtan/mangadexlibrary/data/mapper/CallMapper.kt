@@ -1,16 +1,18 @@
 package com.williamtan.mangadexlibrary.data.mapper
 
-import com.williamtan.mangadexlibrary.data.enum.ApiResponse
+import com.williamtan.mangadexlibrary.data.enums.ApiResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Call
 
-internal class CallMapper<T, R>(
+class CallMapper<T, R>(
     private val apiResponseMapper: ApiResponseMapper<T, R>
 ) {
     fun toFlow(
         call: Call<T>
     ): Flow<ApiResponse<R>> {
+
+
         return flow {
             try {
                 emit(ApiResponse.Loading<R>())
