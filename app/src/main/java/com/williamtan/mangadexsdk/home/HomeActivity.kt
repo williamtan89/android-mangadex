@@ -21,6 +21,10 @@ class HomeActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = homeViewModel
 
+        binding.srlManga.setOnRefreshListener {
+            homeViewModel.loadMangaList()
+        }
+
         homeViewModel.loadMangaList()
     }
 }

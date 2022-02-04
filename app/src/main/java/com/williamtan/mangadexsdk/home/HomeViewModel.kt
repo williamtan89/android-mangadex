@@ -35,4 +35,5 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getMangaListLiveData(): LiveData<List<Manga>> = mangaList
+    fun getIsLoadingLiveData(): LiveData<Boolean> = isLoading
 }

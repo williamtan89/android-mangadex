@@ -45,7 +45,22 @@ class MangaListAdapter : RecyclerView.Adapter<MangaListViewHolder>() {
     }
 
     fun setData(newData: List<Manga>) {
-        data.clear()
+        with(data) {
+            clear()
+
+            addAll(newData.map {
+                MangaViewModel(
+                    title = it.title
+                )
+            })
+        }
+
+        // since the whole data has been replaced
+        notifyDataSetChanged()
+    }
+
+    fun insertData(newData: List<Manga>) {
+        val currentSize = data.size
 
         newData.mapTo(data, {
             MangaViewModel(
@@ -53,7 +68,7 @@ class MangaListAdapter : RecyclerView.Adapter<MangaListViewHolder>() {
             )
         })
 
-        notifyDataSetChanged()
+        notifyItemInserted(currentSize + 1)
     }
 }
 
@@ -77,22 +92,4 @@ interface ItemMangaViewModel {
 
 enum class MangaListItemViewType(val viewType: Int) {
     MangaViewType(1)
-}
-
-@BindingAdapter("data")
-fun bindData(recyclerView: RecyclerView, data: List<Manga>) {
-    val adapter = getOrCreateAdapter(recyclerView)
-    adapter.setData(data)
-}
-
-private fun getOrCreateAdapter(recyclerView: RecyclerView): MangaListAdapter {
-    return if (recyclerView.adapter != null && recyclerView.adapter is MangaListAdapter) {
-        recyclerView.adapter as MangaListAdapter
-    } else {
-        val bindableRecyclerAdapter = MangaListAdapter()
-        recyclerView.adapter = bindableRecyclerAdapter
-        recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
-
-        bindableRecyclerAdapter
-    }
 }
