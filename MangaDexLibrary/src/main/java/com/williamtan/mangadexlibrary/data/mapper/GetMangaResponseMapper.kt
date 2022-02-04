@@ -9,6 +9,8 @@ class GetMangaResponseMapper : ApiResponseMapper<GetMangaResponse, List<Manga>> 
     override fun map(response: GetMangaResponse): ApiResponse.Success<List<Manga>> {
         return ApiResponse.Success(
             response.data.map {
+                println(it)
+
                 Manga(
                     id = it.id,
                     title = it.attributes.title.values.first(),
@@ -16,8 +18,8 @@ class GetMangaResponseMapper : ApiResponseMapper<GetMangaResponse, List<Manga>> 
                     altTitle = it.attributes.altTitle?.map {
                         it.values.first() to it.keys.first()
                     } ?: emptyList(),
-                    description = it.attributes.description.values.first(),
-                    descriptionLocale = it.attributes.description.keys.first(),
+                    description = it.attributes.description.values.firstOrNull(),
+                    descriptionLocale = it.attributes.description.keys.firstOrNull(),
                     coverArtId = it.relationships.find { it.type == RelationshipType.CoverArt.type }?.id
                 )
             }

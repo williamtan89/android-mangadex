@@ -6,10 +6,11 @@ import com.williamtan.mangadexlibrary.domain.repository.MangaRepository
 import kotlinx.coroutines.flow.Flow
 
 interface GetMangaListUseCase {
-    suspend operator fun invoke(): Flow<ApiResponse<List<Manga>>>
+    suspend operator fun invoke(limit: Int, offset: Int): Flow<ApiResponse<List<Manga>>>
 }
 
 class GetMangaListUseCaseImpl(private val repository: MangaRepository) :
     GetMangaListUseCase {
-    override suspend fun invoke(): Flow<ApiResponse<List<Manga>>> = repository.getMangaList()
+    override suspend fun invoke(limit: Int, offset: Int): Flow<ApiResponse<List<Manga>>> =
+        repository.getMangaList(limit, offset)
 }

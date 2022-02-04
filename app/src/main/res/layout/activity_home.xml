@@ -27,7 +27,6 @@
                 android:id="@+id/rv_manga"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:mangaListData="@{viewModel.mangaListLiveData}"
                 tools:listitem="@layout/item_manga" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

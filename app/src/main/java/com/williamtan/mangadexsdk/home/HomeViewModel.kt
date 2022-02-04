@@ -26,14 +26,22 @@ class HomeViewModel @Inject constructor(
     private val isError = MutableLiveData<String>()
 
     private val coverArtPathAvailableSharedFlow = MutableSharedFlow<Pair<Manga, String>>()
+    private var offset: Int = 0
+    private val limit: Int = 26
 
-    fun loadMangaList() {
+    fun loadMangaList(clearData: Boolean) {
+        if (clearData) {
+            offset = 0
+            mangaList.postValue(emptyList())
+        }
+
         viewModelScope.launch(Dispatchers.IO) {
-            getMangaListUseCase().collect {
+            getMangaListUseCase(limit, offset).collect {
                 when (it) {
                     is ApiResponse.Success -> {
                         val mangaListData = it.data ?: emptyList()
                         mangaList.postValue(mangaListData)
+                        offset += mangaListData.size
 
                         mangaListData.forEach { manga ->
                             manga.coverArtId?.let {
@@ -41,7 +49,7 @@ class HomeViewModel @Inject constructor(
                                     it.data?.let { coverArt ->
                                         val fileName = coverArt.fileName
                                         val coverArtPath =
-                                            "https://uploads.mangadex.org/covers/${manga.id}/$fileName.512.jpg"
+                                            "https://uploads.mangadex.org/covers/${manga.id}/$fileName.256.jpg"
 
                                         coverArtPathAvailableSharedFlow.emit(manga to coverArtPath)
                                     }

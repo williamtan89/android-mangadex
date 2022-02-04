@@ -7,8 +7,8 @@ data class Manga(
     val titleLocale: String,
     val altTitle: List<Pair<String, String>>,
 
-    val description: String,
-    val descriptionLocale: String,
+    val description: String?,
+    val descriptionLocale: String?,
 
     var coverArtId: String?
 )

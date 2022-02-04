@@ -6,6 +6,6 @@ import com.williamtan.mangadexlibrary.domain.model.Manga
 import kotlinx.coroutines.flow.Flow
 
 interface MangaRepository {
-    suspend fun getMangaList(): Flow<ApiResponse<List<Manga>>>
+    suspend fun getMangaList(limit: Int, offset: Int): Flow<ApiResponse<List<Manga>>>
     suspend fun getCoverArt(coverArtId: String): Flow<ApiResponse<CoverArt>>
 }
