@@ -1,10 +1,12 @@
 package com.williamtan.mangadexsdk.bindingadapter
 
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.williamtan.mangadexlibrary.domain.model.Manga
+import com.williamtan.mangadexsdk.R
 import com.williamtan.mangadexsdk.home.MangaListAdapter
+import com.williamtan.mangadexsdk.utils.GridLayoutItemDecoration
 
 @BindingAdapter("mangaListData")
 fun bindMangaListAdapter(recyclerView: RecyclerView, data: List<Manga>) {
@@ -12,8 +14,16 @@ fun bindMangaListAdapter(recyclerView: RecyclerView, data: List<Manga>) {
         recyclerView.adapter as MangaListAdapter
     } else {
         val bindableRecyclerAdapter = MangaListAdapter()
+        val gridSize = 2
+
         recyclerView.adapter = bindableRecyclerAdapter
-        recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
+        recyclerView.layoutManager = GridLayoutManager(recyclerView.context, gridSize)
+        recyclerView.addItemDecoration(
+            GridLayoutItemDecoration(
+                recyclerView.resources.getDimensionPixelSize(R.dimen.manga_list_item_spacing),
+                gridSize
+            )
+        )
 
         bindableRecyclerAdapter
     }

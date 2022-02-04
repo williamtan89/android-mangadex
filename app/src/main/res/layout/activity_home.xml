@@ -18,6 +18,9 @@
             android:id="@+id/srl_manga"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:padding="@dimen/manga_list_item_spacing"
             app:isRefreshing="@{viewModel.isLoadingLiveData}">
 
             <androidx.recyclerview.widget.RecyclerView

@@ -1,26 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-            name="itemViewModel"
-            type="com.williamtan.mangadexsdk.home.MangaViewModel" />
+            name="itemData"
+            type="com.williamtan.mangadexsdk.home.MangaListItemData" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp">
 
-        <TextView
-            android:id="@+id/tv_manga_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{itemViewModel.title}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Hunter x Hunter" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_manga_cover_art"
+                android:layout_width="match_parent"
+                android:layout_height="256dp"
+                android:scaleType="centerCrop"
+                app:coverArtUrl="@{itemData.coverArtUrl}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_manga_title"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:background="@drawable/bg_item_manga_title"
+                android:gravity="bottom"
+                android:maxLines="2"
+                android:padding="4dp"
+                android:text="@{itemData.title}"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Hunter x Hunter" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

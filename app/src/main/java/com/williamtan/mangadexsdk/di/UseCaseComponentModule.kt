@@ -1,13 +1,14 @@
 package com.williamtan.mangadexsdk.di
 
 import android.app.Application
+import com.williamtan.mangadexlibrary.di.DaggerLibraryComponent
 import com.williamtan.mangadexlibrary.di.LibraryComponent
+import com.williamtan.mangadexlibrary.domain.interactors.GetMangaCoverArtUseCase
 import com.williamtan.mangadexlibrary.domain.interactors.GetMangaListUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import com.williamtan.mangadexlibrary.di.DaggerLibraryComponent
 import javax.inject.Singleton
 
 /**
@@ -26,4 +27,8 @@ class UseCaseComponentModule {
     @Provides
     fun getMangaListUseCase(libraryComponent: LibraryComponent): GetMangaListUseCase =
         libraryComponent.getMangaListUseCase()
+
+    @Provides
+    fun getMangaCoverArtUseCase(libraryComponent: LibraryComponent): GetMangaCoverArtUseCase =
+        libraryComponent.getMangaCoverArtUseCase()
 }

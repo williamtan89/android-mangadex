@@ -1,6 +1,7 @@
 package com.williamtan.mangadexlibrary.data.mapper
 
 import com.williamtan.mangadexlibrary.data.enums.ApiResponse
+import com.williamtan.mangadexlibrary.data.enums.RelationshipType
 import com.williamtan.mangadexlibrary.data.model.GetMangaResponse
 import com.williamtan.mangadexlibrary.domain.model.Manga
 
@@ -16,7 +17,8 @@ class GetMangaResponseMapper : ApiResponseMapper<GetMangaResponse, List<Manga>> 
                         it.values.first() to it.keys.first()
                     } ?: emptyList(),
                     description = it.attributes.description.values.first(),
-                    descriptionLocale = it.attributes.description.keys.first()
+                    descriptionLocale = it.attributes.description.keys.first(),
+                    coverArtId = it.relationships.find { it.type == RelationshipType.CoverArt.type }?.id
                 )
             }
         )
