@@ -3,7 +3,9 @@ package com.williamtan.mangadexlibrary.data.repository
 import com.williamtan.mangadexlibrary.data.api.MangaApi
 import com.williamtan.mangadexlibrary.data.enums.ApiResponse
 import com.williamtan.mangadexlibrary.data.mapper.CallMapper
+import com.williamtan.mangadexlibrary.data.model.GetCoverArtResponse
 import com.williamtan.mangadexlibrary.data.model.GetMangaResponse
+import com.williamtan.mangadexlibrary.domain.model.CoverArt
 import com.williamtan.mangadexlibrary.domain.model.Manga
 import com.williamtan.mangadexlibrary.domain.repository.MangaRepository
 import io.mockk.*
@@ -24,7 +26,10 @@ class MangaRepositoryTest {
     private lateinit var api: MangaApi
 
     @MockK
-    private lateinit var mapper: CallMapper<GetMangaResponse, List<Manga>>
+    private lateinit var getMangaResponseCallMapper: CallMapper<GetMangaResponse, List<Manga>>
+
+    @MockK
+    private lateinit var getCoverArtResponseCallMapper: CallMapper<GetCoverArtResponse, CoverArt>
 
     private lateinit var repository: MangaRepository
 
@@ -32,7 +37,8 @@ class MangaRepositoryTest {
     fun setup() {
         MockKAnnotations.init(this)
 
-        repository = MangaRepositoryImpl(api, mapper)
+        repository =
+            MangaRepositoryImpl(api, getMangaResponseCallMapper, getCoverArtResponseCallMapper)
     }
 
     @After
@@ -40,14 +46,18 @@ class MangaRepositoryTest {
 
     @Test
     fun `getMangaList result should return as flow`() = runTest {
+        val limit = 1
+        val offset = 0
+        val order = mapOf("order[updatedAt]" to "desc")
+
         val expected = mockk<ApiResponse.Success<List<Manga>>>()
         val call = mockk<Call<GetMangaResponse>>()
         val flow: Flow<ApiResponse<List<Manga>>> = flow { emit(expected) }
 
-        every { mapper.toFlow(call) } returns flow
-        every { api.getMangaList() } returns call
+        every { getMangaResponseCallMapper.toFlow(call) } returns flow
+        every { api.getMangaList(limit, offset, order) } returns call
 
-        val result = repository.getMangaList().toList()
+        val result = repository.getMangaList(limit, offset).toList()
 
         assertTrue(result.size == 1)
         assertEquals(expected, result[0])

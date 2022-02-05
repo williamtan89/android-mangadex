@@ -30,12 +30,14 @@ class GetMangaListUseCaseTest {
 
     @Test
     fun `invoke should returns flow from repository`() = runTest {
+        val limit = 1
+        val offset = 0
         val expected: Flow<ApiResponse<List<Manga>>> = mockk()
-        coEvery { repository.getMangaList() } returns expected
+        coEvery { repository.getMangaList(limit, offset) } returns expected
 
-        val result = useCase()
+        val result = useCase(limit, offset)
 
         assertEquals(expected, result)
-        coVerify { repository.getMangaList() }
+        coVerify { repository.getMangaList(limit, offset) }
     }
 }
