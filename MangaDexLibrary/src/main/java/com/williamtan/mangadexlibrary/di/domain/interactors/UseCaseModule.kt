@@ -2,8 +2,8 @@ package com.williamtan.mangadexlibrary.di.domain.interactors
 
 import com.williamtan.mangadexlibrary.domain.interactors.GetMangaCoverArtUseCase
 import com.williamtan.mangadexlibrary.domain.interactors.GetMangaCoverArtUseCaseImpl
-import com.williamtan.mangadexlibrary.domain.interactors.GetMangaListUseCase
-import com.williamtan.mangadexlibrary.domain.interactors.GetMangaListUseCaseImpl
+import com.williamtan.mangadexlibrary.domain.interactors.GetLatestMangaListUseCase
+import com.williamtan.mangadexlibrary.domain.interactors.GetLatestMangaListUseCaseImpl
 import com.williamtan.mangadexlibrary.domain.repository.MangaRepository
 import dagger.Module
 import dagger.Provides
@@ -21,5 +21,5 @@ class UseCaseModule {
     @Singleton
     fun provideGetMangaListUseCase(
         repository: MangaRepository
-    ): GetMangaListUseCase = GetMangaListUseCaseImpl(repository)
+    ): GetLatestMangaListUseCase = GetLatestMangaListUseCaseImpl(repository)
 }

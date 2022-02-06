@@ -12,17 +12,17 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class GetMangaListUseCaseTest {
+class GetLatestMangaListUseCaseTest {
     @MockK(relaxed = true)
     private lateinit var repository: MangaRepository
 
-    private lateinit var useCase: GetMangaListUseCase
+    private lateinit var useCase: GetLatestMangaListUseCase
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
 
-        useCase = GetMangaListUseCaseImpl(repository)
+        useCase = GetLatestMangaListUseCaseImpl(repository)
     }
 
     @After

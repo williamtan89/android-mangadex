@@ -5,12 +5,12 @@ import com.williamtan.mangadexlibrary.domain.model.Manga
 import com.williamtan.mangadexlibrary.domain.repository.MangaRepository
 import kotlinx.coroutines.flow.Flow
 
-interface GetMangaListUseCase {
+interface GetLatestMangaListUseCase {
     suspend operator fun invoke(limit: Int, offset: Int): Flow<ApiResponse<List<Manga>>>
 }
 
-class GetMangaListUseCaseImpl(private val repository: MangaRepository) :
-    GetMangaListUseCase {
+class GetLatestMangaListUseCaseImpl(private val repository: MangaRepository) :
+    GetLatestMangaListUseCase {
     override suspend fun invoke(limit: Int, offset: Int): Flow<ApiResponse<List<Manga>>> =
-        repository.getMangaList(limit, offset)
+        repository.getMangaList(limit, offset, mapOf("order[updatedAt]" to "desc"))
 }

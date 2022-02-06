@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.williamtan.mangadexlibrary.data.enums.ApiResponse
 import com.williamtan.mangadexlibrary.domain.interactors.GetMangaCoverArtUseCase
-import com.williamtan.mangadexlibrary.domain.interactors.GetMangaListUseCase
+import com.williamtan.mangadexlibrary.domain.interactors.GetLatestMangaListUseCase
 import com.williamtan.mangadexlibrary.domain.model.Manga
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     application: Application,
-    private val getMangaListUseCase: GetMangaListUseCase,
+    private val getLatestMangaListUseCase: GetLatestMangaListUseCase,
     private val getMangaCoverArtUseCase: GetMangaCoverArtUseCase
 ) : AndroidViewModel(application) {
     private val mangaList = MutableLiveData<List<Manga>>(emptyList())
@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-            getMangaListUseCase(limit, offset).collect {
+            getLatestMangaListUseCase(limit, offset).collect {
                 when (it) {
                     is ApiResponse.Success -> {
                         val mangaListData = it.data ?: emptyList()

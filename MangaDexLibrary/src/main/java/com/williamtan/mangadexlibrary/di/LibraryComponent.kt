@@ -6,7 +6,7 @@ import com.williamtan.mangadexlibrary.di.data.mapper.ResponseMapperModule
 import com.williamtan.mangadexlibrary.di.data.repository.MangaRepositoryModule
 import com.williamtan.mangadexlibrary.di.domain.interactors.UseCaseModule
 import com.williamtan.mangadexlibrary.domain.interactors.GetMangaCoverArtUseCase
-import com.williamtan.mangadexlibrary.domain.interactors.GetMangaListUseCase
+import com.williamtan.mangadexlibrary.domain.interactors.GetLatestMangaListUseCase
 import dagger.Component
 import javax.inject.Singleton
 
@@ -21,6 +21,6 @@ import javax.inject.Singleton
     ]
 )
 interface LibraryComponent {
-    fun getMangaListUseCase(): GetMangaListUseCase
+    fun getMangaListUseCase(): GetLatestMangaListUseCase
     fun getMangaCoverArtUseCase(): GetMangaCoverArtUseCase
 }

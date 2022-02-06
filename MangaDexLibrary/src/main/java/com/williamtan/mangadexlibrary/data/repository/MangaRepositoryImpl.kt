@@ -19,12 +19,16 @@ internal class MangaRepositoryImpl(
     private val getCoverArtResponseCallMapper: CallMapper<GetCoverArtResponse, CoverArt>,
     private val dispatcherIO: CoroutineDispatcher = Dispatchers.IO
 ) : MangaRepository {
-    override suspend fun getMangaList(limit: Int, offset: Int): Flow<ApiResponse<List<Manga>>> =
+    override suspend fun getMangaList(
+        limit: Int,
+        offset: Int,
+        order: Map<String, String>
+    ): Flow<ApiResponse<List<Manga>>> =
         callMapper.toFlow(
             mangaApi.getMangaList(
                 limit,
                 offset,
-                mapOf("order[updatedAt]" to "desc")
+                order
             )
         ).flowOn(dispatcherIO)
 
